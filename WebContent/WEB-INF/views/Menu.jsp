@@ -8,14 +8,24 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index">Sistema de Chamados</a>
+                <a class="navbar-brand" href="index">Sistema de Chamados Kaue Mirkai</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="criar_novo_chamado">Novo Chamado</a>
+                    </li> 
                     <li><a href="listar_filas_exibir">Consultar Chamados</a>
                     </li>
-                    <li><a href="listar_filas">Novo Chamado</a>
-                    </li>
+                    <c:if test="${not empty usuarioLogado}">
+	                    <li><a href="efetuar_logout">Logout</a>
+	                    </li>
+                    </c:if>
+                    <c:if test="${empty usuarioLogado}">
+	                    <li><strong>${usuarioLogado.username }</strong>
+	                    </li>
+	                    <li><a href="loginForm">Login</a>
+	                    </li>
+                    </c:if>
                 </ul>
             </div>
         </div>

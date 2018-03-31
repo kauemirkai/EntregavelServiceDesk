@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <!DOCTYPE html>
 <html>
@@ -13,57 +13,53 @@
     <title>Listar Chamados</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
- 
+    
 </head>
 
 <body>
-    <!-- Barra superior com os menus de navegação -->
+    <!-- Barra superior com os menus de navegaÃ§Ã£o -->
     <c:import url="Menu.jsp" />
-    
     <!-- Container Principal -->
     <div id="main" class="container">
-       <h3 class="page-header">Chamado(s) da Fila ${fila.nome}</h3>
-        <c:if test="${not empty chamados}">
-            <div class="table-responsive col-md-12">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Número</th>
-                            <th>Descrição</th>
-                            <th>Abertura</th>
-                            <th>Fechamento</th>
-                            <th>Status</th>
-                            <th>Fila</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="chamado" items="${chamados}">
-                            <tr>
-                                <td>${chamado.numero}</td>
-                                <td>${chamado.descricao }</td>
-                                <td align="center">
-                                    <fmt:formatDate value="${chamado.dataAbertura}" pattern="dd/MM/yyyy" />
-                                </td>
-                                <td align="center">
-                                    <fmt:formatDate value="${chamado.dataFechamento }" pattern="dd/MM/yyyy" />
-                                </td>
-                                <td>${chamado.status }</td>
-                                <td>${chamado.fila.nome }</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div>
+        <h3 class="page-header">Chamado(s) da fila ${fila.nome }</h3>
+        <c:if test="${not empty chamados }">
+	        <div class="table-responsive col-md-12 col-lg-12">
+		        <table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+				    		<th scope="col">NÃºmero</th>
+						    <th scope="col">DescriÃ§Ã£o</th>
+						    <th scope="col">Abertura</th>
+						    <th scope="col">Fechamento</th>
+						    <th scope="col">Status</th>
+						    <th scope="col">Tempo</th>
+				   		</tr>
+				  	</thead>
+					<tbody>
+				    	<c:forEach var="chamado" items="${chamados }">
+					    	<tr>
+					      		<th scope="row">${chamado.id }</th>
+					      		<td>${chamado.descricao }</td>
+					      		<td>${chamado.dt_abertura }</td>
+					      		<td>@${chamado.dt_fechamento }</td>
+					      		<td>@${chamado.status }</td>
+					    	</tr>
+				    	</c:forEach>
+				  	</tbody>
+				</table>
+			</div>
         </c:if>
-        <c:if test="${empty chamados}">
-            <div class="alert alert-info" role="alert">N&atilde;o h&aacute; chamados nesta fila.</div>
+        <c:if test="${empty chamados }">
+        	<div class="alert alert-info" role="alert">NÃ£o hÃ¡ chamados nesta fila.</div>
         </c:if>
-        <a href="listar_filas_exibir" class="btn btn-default">Voltar</a>
+        <div class="row">
+            <div class="col-md-12">
+            	<a href="listar_filas_exibir" class="btn btn-default">Voltar</a>
+			</div>
+        </div>
     </div>
-    
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    
 </body>
 
 </html>

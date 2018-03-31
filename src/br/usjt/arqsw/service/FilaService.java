@@ -3,26 +3,33 @@ package br.usjt.arqsw.service;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import br.usjt.arqsw.dao.FilaDAO;
 import br.usjt.arqsw.entity.Fila;
+
 /**
- * @author Kauê Victor Paz Garcia Mirkai
- * RA:81613004
+ * 
+ * @author Kaue Mirkai - 81613004
  * Professor:Bonato
  * Turma:CCP3AN-MCA
+ * documentação:Service de filas
+ * 
  */
-
+@Service
 public class FilaService {
 	private FilaDAO dao;
 	
-	public FilaService() {
-		dao = new FilaDAO();
+	@Autowired
+	public FilaService(FilaDAO dao) {
+		this.dao = dao;
 	}
 	public ArrayList<Fila> listarFilas() throws IOException{
 		return dao.listarFilas();
 	}
-	
 	public Fila carregar(int id) throws IOException{
+		// TODO Auto-generated method stub
 		return dao.carregar(id);
 	}
 }

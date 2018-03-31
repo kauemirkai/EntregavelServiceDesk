@@ -8,6 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
 
@@ -16,71 +21,67 @@ import br.usjt.arqsw.entity.Fila;
  * @author Kaue Mirkai - 81613004
  * Professor:Bonato
  * Turma:CCP3AN-MCA
- * Documentaçãop
- *
+ * documentação:DAO de chamados utilizando @repository e utilizando a connection factory do spring.
  */
-
+@Repository
 public class ChamadoDAO {
-
-	public int criarChamado(Chamado chamado) throws IOException {
-		int id = -1;
-		String sql = "INSERT INTO chamado (descricao, status, dt_abertura, id_fila) VALUES (?,?,?,?)";
-		String sqlaux = "SELECT LAST_INSERT_ID()";
-		try(Connection conn = ConnectionFactory.getConnection();
-				PreparedStatement stmt = conn.prepareStatement(sql);){
-			stmt.setString(1, chamado.getDescricao());
-			stmt.setString(2, chamado.getStatus());
-			stmt.setDate(3, new Date(chamado.getDataAbertura().getTime()));
-			stmt.setInt(4, chamado.getFila().getId());
-			stmt.execute();
-			
-			try(PreparedStatement stm = conn.prepareStatement(sqlaux);
-					ResultSet rs = stm.executeQuery();){
-				rs.next();
-				id = rs.getInt(1);
-			}catch(SQLException e1){
-				throw new IOException(e1);
-			}
-			
-		}catch(SQLException e){
+	private Connection conn;
+	
+	@Autowired
+	public ChamadoDAO(DataSource dataSource) throws IOException{
+		try{
+			this.conn = dataSource.getConnection();
+		} catch (SQLException e){
 			throw new IOException(e);
 		}
-		
-		return id;
 	}
-
+	
 	public ArrayList<Chamado> listarChamados(Fila fila) throws IOException {
-		ArrayList<Chamado> lista = new ArrayList<Chamado>();
-
-		String sql = "SELECT c.ID_CHAMADO, c.DESCRICAO, c.STATUS, c.DT_ABERTURA, c.DT_FECHAMENTO, f.NM_FILA"
-				+ " FROM chamado c INNER JOIN fila f ON c.ID_FILA = f.ID_FILA WHERE c.ID_FILA = ?";
-
-		try (Connection conn = ConnectionFactory.getConnection(); 
-				PreparedStatement stm = conn.prepareStatement(sql);) {
-			stm.setInt(1, fila.getId());
-			try (ResultSet rs = stm.executeQuery();) {
-
-				while (rs.next()) {
+		String query = "select id_chamado, descricao, status, dt_abertura, dt_fechamento, id_fila from chamado where id_fila = ?";
+		ArrayList<Chamado> lista = new ArrayList<>();
+		try(PreparedStatement pst = conn.prepareStatement(query);){
+			pst.setInt(1, fila.getId());
+			try(ResultSet rs = pst.executeQuery();){
+				
+				while(rs.next()) {
 					Chamado chamado = new Chamado();
-					chamado.setNumero(rs.getInt("ID_CHAMADO"));
-					chamado.setDescricao(rs.getString("DESCRICAO"));
-					chamado.setStatus(rs.getString("STATUS"));
-					chamado.setDataAbertura(rs.getDate("DT_ABERTURA"));
-					chamado.setDataFechamento(rs.getDate("DT_FECHAMENTO"));
-					fila.setNome(rs.getString("NM_FILA"));
-					chamado.setFila(fila);
+					chamado.setId(rs.getInt("id_chamado"));
+					chamado.setDescricao(rs.getString("descricao"));
+					chamado.setStatus(rs.getString("status"));
+					chamado.setDt_abertura(rs.getDate("dt_abertura"));
+					chamado.setDt_fechamento(rs.getDate("dt_fechamento"));
 					lista.add(chamado);
 				}
-
-			} catch (SQLException e1) {
-				throw new IOException(e1);
 			}
-
+			
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}
-
 		return lista;
 	}
-
+	
+	public int criarChamado(Chamado chamado) throws IOException {
+		Date dataAbertura = new Date(chamado.getDt_abertura().getTime());
+		
+		String sqlInsert = "INSERT INTO chamado(descricao, status, dt_abertura, id_fila) VALUES (?, ?, ?, ?)";
+		try(PreparedStatement pst = conn.prepareStatement(sqlInsert);){
+			pst.setString(1, chamado.getDescricao());
+			pst.setString(2, chamado.getStatus());
+			pst.setDate(3, dataAbertura);
+			pst.setInt(4, chamado.getFila().getId());
+			
+			pst.execute();
+			
+			String sqlQuery = "SELECT LAST_INSERT_ID()";
+			try (PreparedStatement stm2 = conn.prepareStatement(sqlQuery); ResultSet rs = stm2.executeQuery();) {
+				if (rs.next()) {
+					chamado.setId(rs.getInt(1));
+				}
+			}
+			
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+		return chamado.getId();
+	}
 }
