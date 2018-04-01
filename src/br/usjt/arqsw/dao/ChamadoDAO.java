@@ -49,4 +49,11 @@ public class ChamadoDAO {
         manager.persist(chamado);
         return chamado.getId();
     }
+
+	@SuppressWarnings("unchecked")
+	public List<Chamado> listarChamados() throws IOException {
+		// TODO Auto-generated method stub
+		String jpql = "select c from Chamado c";
+		return manager.createQuery(jpql).getResultList();
+	}
 }

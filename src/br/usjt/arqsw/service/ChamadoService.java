@@ -39,4 +39,10 @@ public class ChamadoService {
 		return dao.criarChamado(chamado);
 	}
 
+	public List<Chamado> listarChamados() throws IOException {
+		// TODO Auto-generated method stub
+		return dao.listarChamados();
+	}
+
+
 }
