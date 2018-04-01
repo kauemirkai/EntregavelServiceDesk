@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,9 +19,10 @@ import br.usjt.arqsw.service.UsuarioService;
  * Professor:Bonato
  * Turma:CCP3AN-MCA
  * documentação:Essa classe corresponde ao controller de login, ao clickar no botão de login caimos no metodo efetuar login que ao chamar
- * service.validar() retorna uma session pro usuário.
+ * service.validar() returna uma session pro usuário.
  */
 @Controller
+@Transactional
 public class LoginController {
 	private UsuarioService usuarioService;
 

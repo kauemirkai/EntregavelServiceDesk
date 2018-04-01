@@ -3,6 +3,7 @@ package br.usjt.arqsw.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,11 @@ import br.usjt.arqsw.service.FilaService;
  * Professor:Bonato
  * Turma:CCP3AN-MCA
  * documentação:Essa classe corresponde ao controller de Chamados, aqui instanciamos os metodos e os services pra poder executar os metodos
- * tudo com injeção de dependencia.
+ * tudo com injeção de dependencia
  *
  */
 @Controller
+@Transactional
 public class ManterChamadosController {
 	private FilaService filaService;
 	private ChamadoService chamadoService;

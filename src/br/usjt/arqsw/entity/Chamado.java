@@ -3,6 +3,13 @@ package br.usjt.arqsw.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -13,28 +20,34 @@ import javax.validation.constraints.Size;
  * Turma:CCP3AN-MCA
  * documentação:Entidade Chamado, representação do objeto chamado no sistema
  */
-
+@Entity
 public class Chamado implements Serializable {
-
-	public static final String ABERTO = "aberto";
-	public static final String FECHADO = "fechado";
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	public static final String ABERTO = "aberto";
+	public static final String FECHADO = "fechado";
+
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="id_chamado")
+    @NotNull(message="O chamado não existe")
+    private int id;
+
+    @NotNull
+    @Size(min=5, max=50, message="A descrição do chamado deve estar entre 5 e 50 caracteres.")
+    private String descricao;
+    private String status;
+    private Date dt_abertura;
+    private Date dt_fechamento;
+
+    @NotNull(message="O chamado deve pertencer a uma fila")
+    @ManyToOne
+    @JoinColumn(name="id_fila")
+    private Fila fila;
 	
-	@NotNull(message="O chamado não existe")
-	private int id;
-	
-	@NotNull
-	@Size(min=5, max=50, message="A descrição do chamado deve estar entre 5 e 50 caracteres.")
-	private String descricao;	
-	private String status;
-	private Date dt_abertura;
-	private Date dt_fechamento;
-	
-	@NotNull(message="O chamado deve pertencer a uma fila")
-	private Fila fila;
 	
 	public int getId() {
 		return id;

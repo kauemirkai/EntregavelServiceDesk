@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import br.usjt.arqsw.entity.Usuario;
  * documentação:DAO de Usuários utilizando @repository e utilizando a connection factory do spring.
  */
 @Repository
+@PersistenceContext
 public class UsuarioDAO {
 	
 	private Connection conn;
