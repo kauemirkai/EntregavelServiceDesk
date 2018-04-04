@@ -33,4 +33,10 @@ public class FilaService {
 		// TODO Auto-generated method stub
 		return dao.carregar(id);
 	}
+	public int criar(Fila fila) throws IOException{
+		return dao.criar(fila);
+		
+	}
+	
+	
 }

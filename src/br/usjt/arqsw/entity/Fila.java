@@ -36,6 +36,15 @@ public class Fila implements Serializable{
 	@Size(min=5, max=45, message="O nome da fila deve estar entre 5 e 45 caracteres.")
 	private String nome;
 	
+	@Column(name="caminho_figura")
+	private String caminho_figura;
+	
+	public String getCaminho_figura() {
+		return caminho_figura;
+	}
+	public void setCaminho_figura(String caminho_figura) {
+		this.caminho_figura = caminho_figura;
+	}
 	public int getId() {
 		return id;
 	}

@@ -37,10 +37,6 @@ public class ManterChamadosController {
 		this.chamadoService = chamadoService;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	@RequestMapping("index")
 	public String inicio() {
 		return "index";
@@ -50,11 +46,7 @@ public class ManterChamadosController {
 			return filaService.listarFilas();
 	}
 	
-	/**
-	 * 
-	 * @param model Acesso à request http
-	 * @return JSP de Listar Chamados
-	 */
+	
 	@RequestMapping("/listar_filas_exibir")
 	public String listarFilasExibir(Model model) {
 		try {
@@ -116,5 +108,18 @@ public class ManterChamadosController {
 			e.printStackTrace();
 			return "Erro";
 		}
+	}
+	@RequestMapping("/criar_fila")
+	public String criarFila(@Valid Fila fila, Model model) {
+		try {
+			
+			int id = filaService.criar(fila);
+			model.addAttribute("fila", fila);
+			return "FilaSalva";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "Erro";
+		}
+		
 	}
 }

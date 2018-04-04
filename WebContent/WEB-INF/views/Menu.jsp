@@ -16,6 +16,8 @@
                     </li> 
                     <li><a href="listar_filas_exibir">Consultar Chamados</a>
                     </li>
+                     <li><a href="criar_fila">Criar Fila</a>
+                    </li>
                     <c:if test="${not empty usuarioLogado}">
 	                    <li><a href="efetuar_logout">Logout</a>
 	                    </li>

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -16,6 +17,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
 /**
  * 
@@ -43,5 +45,19 @@ public class FilaDAO {
         return result;
     }
 
-
+	public int criar(Fila fila) {
+        manager.persist(fila);
+        return fila.getId();
+	}
+	
+	public void atualizar(Fila fila) {
+		manager.merge(fila);
+		
+		
+	}
+	public void excluir(Fila fila) {
+		manager.remove(fila);
+		
+	}
+	
 }
