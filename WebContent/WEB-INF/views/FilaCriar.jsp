@@ -22,7 +22,7 @@
     <!-- Container Principal -->
     <div id="main" class="container">
         <h3 class="page-header">Nova Fila</h3>
-        <form action="salvar_chamado" method="get">
+        <form action="salvar_fila" method="get">
             <div class="row">
                 <div class="form-group col-md-4">
                     <label for="descricao">Descrição:</label>
@@ -30,21 +30,9 @@
                     <input type="text" name="descricao" id="descricao" class="form-control" required></input>
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group col-md-4">
-                    <label for="fila">Fila:</label>
-                    <form:errors path="chamado.fila.id" cssStyle="color:red"/><br>
-                    <select class="form-control" name="fila.id">
-                        <option value="0"></option>
-                        <c:forEach var="fila" items="${filas}">
-                            <option value="${fila.id}">${fila.nome}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
             <div id="actions" class="row">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary" >Salvar Chamado </button>
+                    <button type="submit" class="btn btn-primary" >Salvar Fila </button>
                     <a href="index" class="btn btn-default">Cancelar</a>
                 </div>
             </div>

@@ -37,6 +37,14 @@ public class FilaService {
 		return dao.criar(fila);
 		
 	}
+	public void excluir(Fila fila) throws IOException{
+		 dao.excluir(fila);
+		
+	}
+	public void atualizar(Fila fila) throws IOException{
+		 dao.atualizar(fila);
+		
+	}
 	
 	
 }

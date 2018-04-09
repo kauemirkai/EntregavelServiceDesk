@@ -111,15 +111,26 @@ public class ManterChamadosController {
 	}
 	@RequestMapping("/criar_fila")
 	public String criarFila(@Valid Fila fila, Model model) {
+		model.addAttribute("fila", fila);
+		return "FilaCriar";
+		
+	}
+	@RequestMapping("/salvar_fila")
+	public String listarFilaExibir(@Valid Fila fila, BindingResult result, Model model) {
 		try {
+			if (result.hasFieldErrors("id")) {
+				System.out.println("Deu erro " + result.toString());
+				return "redirect:criar";
+			}
 			
 			int id = filaService.criar(fila);
-			model.addAttribute("fila", fila);
+			model.addAttribute("id_fila", id);
 			return "FilaSalva";
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "Erro";
 		}
-		
 	}
+	
 }

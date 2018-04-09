@@ -52,12 +52,10 @@ public class FilaDAO {
 	
 	public void atualizar(Fila fila) {
 		manager.merge(fila);
-		
-		
+				
 	}
 	public void excluir(Fila fila) {
-		manager.remove(fila);
-		
+		manager.remove(fila);	
 	}
 	
 }
