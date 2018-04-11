@@ -1,7 +1,6 @@
 package br.usjt.arqsw.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,9 +28,6 @@ public class ChamadoService {
 		this.dao = dao;
 	}
 	
-	public List<Chamado> listarChamados(Fila fila) throws IOException {
-		return dao.listarChamados(fila);		
-	}
 	
 	public int criarChamado(Chamado chamado) throws IOException {
 		chamado.setStatus(Chamado.ABERTO);
@@ -42,6 +38,12 @@ public class ChamadoService {
 	public List<Chamado> listarChamados() throws IOException {
 		// TODO Auto-generated method stub
 		return dao.listarChamados();
+	}
+
+	public List<Chamado> listarChamados(Fila fila) throws IOException {
+		// TODO Auto-generated method stub
+		return dao.listarChamados(fila);
+		
 	}
 
 

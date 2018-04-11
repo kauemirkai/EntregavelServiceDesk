@@ -17,8 +17,8 @@ value="com.mysql.jdbc.Driver" />
 <property name="javax.persistence.jdbc.url"
 value="jdbc:mysql://localhost/serviceDesk?createDatabaseIfNotExist=true&amp;useUnic
 ode=yes&amp;characterEncoding=UTF-8" />
-<property name="javax.persistence.jdbc.user" value="root" />
-<property name="javax.persistence.jdbc.password" value="root"
+<property name="javax.persistence.jdbc.user" value="alunos" />
+<property name="javax.persistence.jdbc.password" value="alunos"
 />
 <!-- propriedades do hibernate -->
 <property name="hibernate.dialect"
