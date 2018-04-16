@@ -1,6 +1,8 @@
 package br.usjt.arqsw.dao;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -50,4 +52,31 @@ public class ChamadoDAO {
 		String jpql = "select c from Chamado c";
 		return manager.createQuery(jpql).getResultList();
 	}
+	
+	
+	public void fecharChamados(ArrayList<Integer> lista) throws IOException {
+		for(int id:lista){
+			Chamado chamado = manager.find(Chamado.class,id);
+			chamado.setDt_fechamento(new Date());
+			chamado.setStatus(Chamado.FECHADO);
+			manager.merge(chamado);
+		}
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<Chamado> listarChamadosAbertos(Fila fila) {
+		fila = manager.find(Fila.class, fila.getId());
+		
+		String jpsql = "select c from Chamado c where c.fila= :fila and c.status = :status";
+		
+		Query query = manager.createQuery(jpsql);
+		query.setParameter("fila", fila);
+		query.setParameter("status", Chamado.ABERTO);
+		
+		List<Chamado> result = query.getResultList();
+		
+		return result;
+	}
+	
 }

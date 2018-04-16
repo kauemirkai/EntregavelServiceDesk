@@ -15,6 +15,7 @@
                     <li><a href="criar_novo_chamado">Novo Chamado</a>
                     </li> 
                     <li><a href="listar_filas_exibir">Consultar Chamados</a>
+                    <li><a href="listar_filas_fechar">Fechar Chamado</a>
                     </li>
                      <li><a href="criar_fila">Criar Fila</a>
                     </li>

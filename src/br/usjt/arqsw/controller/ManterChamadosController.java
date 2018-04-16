@@ -1,7 +1,11 @@
 package br.usjt.arqsw.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
@@ -110,10 +115,8 @@ public class ManterChamadosController {
 		}
 	}
 	@RequestMapping("/criar_fila")
-	public String criarFila(@Valid Fila fila, Model model) {
-		model.addAttribute("fila", fila);
+	public String criarFila(Model model) throws IOException {
 		return "FilaCriar";
-		
 	}
 	@RequestMapping("/salvar_fila")
 	public String listarFilaExibir(@Valid Fila fila, BindingResult result, Model model) {
@@ -133,4 +136,58 @@ public class ManterChamadosController {
 		}
 	}
 	
+	
+	@RequestMapping("/fechar_chamados")
+	public String fecharChamados(
+			@RequestParam Map<String, String> allRequestParams) {
+		try {
+			Set<String> chaves = allRequestParams.keySet();
+			Iterator<String> i = chaves.iterator();
+			ArrayList<Integer> lista = new ArrayList<>();
+			while (i.hasNext()) {
+				String chave = i.next();
+				String valor = allRequestParams.get(chave);
+				if (valor.equals("on")) {
+					lista.add(Integer.parseInt(chave));
+				}
+			}
+			if (lista.size() > 0) {
+				chamadoService.fecharChamados(lista);
+			}
+			return "ChamadoFechado";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "Erro";
+		}
+	}
+	
+	@RequestMapping("/listar_chamados_abertos")
+	public String listarChamadosAbertos(Fila fila, Model model) {
+		try {
+			fila = filaService.carregar(fila.getId());
+			model.addAttribute("fila", fila);
+
+			List<Chamado> chamados = chamadoService.listarChamadosAbertos(fila);
+			model.addAttribute("chamados", chamados);
+			return "ChamadoFecharSelecionar";
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "Erro";
+		}
+	}
+	
+	@RequestMapping("/listar_filas_fechar")
+	public String listarFilasFechar(Model model) {
+		try {
+			List<Fila> filas = filaService.listarFilas();
+			model.addAttribute("filas", filas);
+			return "ChamadoFechar";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "Erro";
+		}
+	}
+	
 }
+

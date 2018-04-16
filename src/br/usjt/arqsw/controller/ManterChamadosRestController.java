@@ -39,9 +39,6 @@ public class ManterChamadosRestController {
 	public ManterChamadosRestController(ChamadoService cs, FilaService fs) {
 		cService  = cs;
 		fService = fs;
-		
-		
-		
 	}
 	@RequestMapping(method=RequestMethod.GET, value="rest/chamados")
 	public @ResponseBody List<Chamado> listarChamados(){
@@ -64,7 +61,6 @@ public class ManterChamadosRestController {
 			Fila fila = fService.carregar(id.intValue());
 			chamados = cService.listarChamados(fila);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
